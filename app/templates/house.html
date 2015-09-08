@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>House ID: {{ id }}!</h1>
+  <div>
+    <p>{{ number }} {{ street }}</p>
+    <p>
+      {% for tree in trees %}
+        <b>{{ tree.commonName }}</b>, <em>{{ tree.genusName }} {{ tree.speciesName }}</em><br />
+      {% endfor %}
+    </p>
+  </div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Hello, {{ user.nickname }}!</h1>
+    {% for site in sites %}
+      <div><p>{{ site.house }} has a: <b>{{ site.tree.common_name }}</b><br />
+        Also known as: <em>{{ site.tree.genus_name }} {{ site.tree.species_name }}</em></p></div>
+    {% endfor %}
+{% endblock %}
