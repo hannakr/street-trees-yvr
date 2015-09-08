@@ -41,7 +41,8 @@ def login():
 @app.route('/search', methods=['GET'])
 def search():
     form = SearchForm()
-    houses = House.query.filter(House.stdStreet==request.args.get('street'), House.civicNumber==request.args.get('number')).all()
+    houses = House.query.order_by(House.civicNumber).filter(House.stdStreet==request.args.get('street'),
+                                (House.civicNumber==request.args.get('number') if request.args.get('number') else '')).all()
     form.street.data = request.args.get('street')
     form.number.data = request.args.get('number')
     return render_template('search.html',

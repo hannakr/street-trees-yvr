@@ -8,4 +8,4 @@ class LoginForm(Form):
 
 class SearchForm(Form):
     street = StringField('street', validators=[DataRequired()])
-    number = StringField('number', validators=[DataRequired()])
+    number = StringField('number')
