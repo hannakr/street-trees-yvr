@@ -2,8 +2,7 @@
 
 {% block content %}
   <h1>Find a House</h1>
-  <form action="" method="post" name="search">
-      {{ form.hidden_tag() }}
+  <form action="" method="get" name="search">
       <p>
           Please enter the address:<br>
           {{ form.number(size=10) }} {{ form.street(size=80) }}<br>
@@ -13,4 +12,9 @@
       </p>
       <p><input type="submit" value="Search"></p>
   </form>
+  <div>
+  {% for house in houses %}
+    <p><a href="house/{{ house.id }}">{{ house.civicNumber }} {{ house.stdStreet }}</a></p>
+  {% endfor %}
+  </div>
 {% endblock %}

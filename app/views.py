@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
 from app import app
 from .forms import LoginForm
 from .forms import SearchForm
@@ -38,17 +38,18 @@ def login():
                            form=form,
                            providers=app.config['OPENID_PROVIDERS'])
 
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/search', methods=['GET'])
 def search():
     form = SearchForm()
-    if form.validate_on_submit():
-        flash('Searched for street="%s"' % (form.street.data))
-        houses = House.query.filter(House.stdStreet==form.street.data, House.civicNumber==form.number.data).all()
-        return render_template('houses.html', houses=houses)
-        #return redirect(url_for('house', id=house.id))
+    houses = House.query.filter(House.stdStreet==request.args.get('street'), House.civicNumber==request.args.get('number')).all()
+    form.street.data = request.args.get('street')
+    form.number.data = request.args.get('number')
     return render_template('search.html',
                            title='Find Address',
-                           form=form)
+                           form=form,
+                           houses=houses,
+                           street=request.args.get('street'),
+                           number=request.args.get('number'))
 
 @app.route('/house/<id>')
 def house(id):
