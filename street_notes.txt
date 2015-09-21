@@ -1,0 +1,98 @@
+Street Types:
+ALLEY
+AV
+BOULEVARD
+BRIDGE
+CIRCLE
+CLOSE
+CONNECTOR
+COURT
+COVE
+CRESCENT
+DIVERSION
+DRIVE
+HIGHWAY
+HILL
+LANDING
+LANE
+MEWS
+PASSAGE
+PLACE
+QUAY
+ROAD
+SQUARE
+ST
+VIADUCT
+WALK
+WAY
+
+
+avenue -> av
+ave -> av
+street -> st (look out for st. clair place, st. catherines st, st. margarets st, st. george st, st. lawrence st)
+dr -> drive
+blvd -> boulevard
+cres -> crescent
+pl -> place
+sq -> square
+rd -> road
+ln -> lane
+div -> diversion (except for commercial div north)
+hwy -> highway (except for grandview hwy south)
+
+north -> n (except for commercial div north, e kent av north)
+west -> w (except for west boulevard)
+east -> e (except for east boulevard)
+south -> s (except for e kent av south, grandview hwy south)
+south west -> sw
+south east -> se
+
+no street type:
+bucketwheel
+charleson
+millbank
+millyard
+scantlings
+the castings
+broadway
+bridgeway
+kingsway
+
+only street type:
+the crescent
+
+street names have punctuation:
+lamey's mill road
+bella-vista st
+angler's place
+captain's cove
+st. margarets st
+kings lynn st - does anyone write king's lynn st?
+
+several street names have more than one piece:
+point grey road, for example
+
+rather than trying to distinguish and apply rules differently between "pender st west" and "e kent st north", consider just normalizing them to "PENDER ST WEST" and "W PENDER ST", or "E KENT ST NORTH" and "N E KENT ST" and searching for both
+
+Note that there is a "n grandview highway" but a "grandview hwy south" - consider normalizing this when you do your import. Normalize other things as well.
+Normalizing data:
+st. -> saint
+div -> diversion
+hwy -> highway
+something south -> s something
+other thing north -> n other thing
+remove apostrophes
+
+What if I just treated WEST BOULEVARD as if it was a street name of '' with a direction and a type?
+Then I'd turn WEST BOULEVARD into W BOULEVARD - meaning I'd have to change that in the DB.
+
+remove street number
+uppercase
+remove punctuation
+identify and remove directions at the front - use a recursive function and keep removing pieces (and creating a string from them) until there are no more
+identify and remove directions at the back
+identify and remove type from the back
+rebuild: number + back direction + front direction + street name + type
+
+for each function, return the result and the remaining pieces
+if the result is null, return an empty string
