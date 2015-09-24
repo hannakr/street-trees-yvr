@@ -10,13 +10,13 @@ class ParseTestCase(unittest.TestCase):
 
     def test_no_argument(self):
         """Does the function return nothing if you pass it nothing?"""
-        self.assertFalse(parse_address(None))
+        self.assertEqual(parse_address(None), ('',''))
 
     def test_uppercase(self):
         """Does the function return an uppercase string?"""
-        self.assertEqual(parse_address('ontario st'), 'ONTARIO ST')
-        self.assertEqual(parse_address('w 18th av'), 'W 18TH AV')
-        self.assertEqual(parse_address('456 w 18th av'), '456 W 18TH AV')
+        self.assertEqual(parse_address('ontario st'), ('','ONTARIO ST'))
+        self.assertEqual(parse_address('w 18th av'), ('','W 18TH AV'))
+        self.assertEqual(parse_address('456 w 18th av'), ('456','W 18TH AV'))
 
     def test_number_identifier(self):
         """Does the function identify house numbers?"""

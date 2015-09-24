@@ -1,12 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="container-fluid">
   <h1>House ID: {{ id }}!</h1>
   <div>
     <p>{{ number }} {{ street }}</p>
+    <div class="square">
+      <div class="house"><img src="/static/images/house-308936_640.png" width="200" height="200"></div>
+    {% for tree in trees %}
+      <div class="cell cell-{{ tree.cell }}">tree</div>
+    {% endfor %}
+    </div>
     <p>
       {% for tree in trees %}
-        <b>{{ tree.commonName }}</b>, <em>{{ tree.genusName }} {{ tree.speciesName }}</em><br />
+        <b>Cell {{ tree.cell }}: {{ tree.commonName }}</b>, <em>{{ tree.genusName }} {{ tree.speciesName }} {% if tree.cultivarName|length > 1 %}'{{ tree.cultivarName }}'{% endif %}</em><br />
       {% endfor %}
     </p>
   </div>
+  {% if prev_house_id %}<a href="/house/{{ prev_house_id }}">Previous</a>{% endif %}
+  {% if next_house_id %}<a href="/house/{{ next_house_id }}">Next</a>{% endif %}
+</div>
 {% endblock %}

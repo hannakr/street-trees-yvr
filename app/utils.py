@@ -13,10 +13,10 @@ def parse_address(street_string):
     if street_string:
         string_pieces = street_string.upper().split()
         house_number, address_pieces = identify_number(string_pieces)
-        if house_number:
-            address_pieces.insert(0,house_number)
+        #if house_number:
+        #    address_pieces.insert(0,house_number)
         tmp_string = ' '.join(address_pieces)
-    return tmp_string
+    return house_number, tmp_string
 
 def identify_number(address_pieces):
     pattern = '^\d+$'
@@ -44,5 +44,5 @@ def find_directions(street_pieces):
     pattern['sw'] = '^SW$'
     for key in pattern:
         if re.search(pattern[key], street_pieces[0]):
-            output = street_pieces.pop(0)
+            direction = street_pieces.pop(0)
     return direction

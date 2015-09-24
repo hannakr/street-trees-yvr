@@ -9,3 +9,4 @@ class LoginForm(Form):
 class SearchForm(Form):
     street = StringField('street', validators=[DataRequired()])
     number = StringField('number')
+    address = StringField('address', validators=[DataRequired()])

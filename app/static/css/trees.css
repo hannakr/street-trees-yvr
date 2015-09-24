@@ -1,0 +1,134 @@
+.square {
+  width: 300px;
+  height: 300px;
+  box-sizing: border-box;
+  position: relative;
+  border: 1px solid black;
+}
+.house {
+  width: 71.44%;
+  height: 71.44%;
+  box-sizing: border-box;
+  border: 1px solid black;
+  position: absolute;
+  top: 14.28%;
+  left: 14.28%;
+}
+.cell {
+  border: 1px solid black;
+  width: 14.28%;
+  height: 14.28%;
+  box-sizing: border-box;
+  position: absolute;
+}
+.active {
+  background: green;
+}
+.cell-1 {
+  background: #CCFFCC;
+  top: 85.72%;
+  left: 0;
+}
+.cell-2 {
+  top: 85.72%;
+  left: 14.28%;
+}
+.cell-3 {
+  background: #CCFFCC;
+  top: 85.72%;
+  left: 28.56%;
+}
+.cell-4 {
+  top: 85.72%;
+  left: 42.84%;
+}
+.cell-5 {
+  background: #CCFFCC;
+  top: 85.72%;
+  left: 57.12%;
+}
+.cell-6 {
+  top: 85.72%;
+  left: 71.40%;
+}
+.cell-7 {
+  background: #CCFFCC;
+  top: 85.72%;
+  left: 85.68%;
+}
+.cell-8 {
+  top: 71.40%;
+  left: 85.68%;
+}
+.cell-9 {
+  background: #CCFFCC;
+  top: 57.12%;
+  left: 85.68%;
+}
+.cell-10 {
+  top: 42.84%;
+  left: 85.68%;
+}
+.cell-11 {
+  background: #CCFFCC;
+  top: 28.56%;
+  left: 85.68%;
+}
+.cell-12 {
+  top: 14.28%;
+  left: 85.68%;
+}
+.cell-13 {
+  background: #CCFFCC;
+  top: 0;
+  left: 85.68%;
+}
+.cell-14 {
+  top: 0;
+  left: 71.40%;
+}
+.cell-15 {
+  background: #CCFFCC;
+  top: 0;
+  left: 57.12%;
+}
+.cell-16 {
+  top: 0;
+  left: 42.84%;
+}
+.cell-17 {
+  background: #CCFFCC;
+  top: 0;
+  left: 28.56%;
+}
+.cell-18 {
+  top: 0;
+  left: 14.28%;
+}
+.cell-19 {
+  background: #CCFFCC;
+  top: 0;
+  left: 0;
+}
+.cell-20 {
+  top: 14.28%;
+  left: 0;
+}
+.cell-21 {
+  background: #CCFFCC;
+  top: 28.56%;
+  left: 0;
+}
+.cell-22 {
+  top: 42.84%;
+  left: 0;
+}
+.cell-23 {
+  background: #CCFFCC;
+  top: 57.12%;
+  left: 0;
+}
+.cell-24 {
+  top: 71.40%;
+  left: 0;
+}
