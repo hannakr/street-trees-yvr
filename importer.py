@@ -1,5 +1,6 @@
 from app import db, models
 #from models import *
+import re
 
 def import_data():
     print "running function"
@@ -10,6 +11,79 @@ def import_data():
         print pieces
         find_or_create_house(pieces)
 
+def parse_address(street_string):
+    string_pieces = street_string.upper().split()
+
+    # parse_streets
+    string_pieces = map(lambda s:s.replace('.',''), string_pieces)
+    string_pieces = map(lambda s:s.replace('\'',''), string_pieces)
+
+
+    # replace alternate street types
+    string_pieces = map(lambda s:re.sub(r'\b(AVENUE|AVE)\b', 'AV', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(BLVD)\b', 'BOULEVARD', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(CIR)\b', 'CIRCLE', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(CRT)\b', 'COURT', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(CRES)\b', 'CRESCENT', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(DR)\b', 'DRIVE', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(LN)\b', 'LANE', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(PASS)\b', 'PASSAGE', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(PL)\b', 'PLACE', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(RD)\b', 'ROAD', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(SQ)\b', 'SQUARE', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(STREET)\b', 'ST', s), string_pieces)
+
+    # replace directions
+    string_pieces = map(lambda s:re.sub(r'\b(WEST)\b', 'W', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(EAST)\b', 'E', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(NORTH)\b', 'N', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(SOUTH)\b', 'S', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(SOUTHWEST)\b', 'SW', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(SOUTHEAST)\b', 'SE', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(NORTHWEST)\b', 'NW', s), string_pieces)
+    string_pieces = map(lambda s:re.sub(r'\b(NORTHEAST)\b', 'NE', s), string_pieces)
+
+    # replace random bits
+    string_pieces = map(lambda s:re.sub(r'\b(SAINT)\b', 'ST', s), string_pieces)
+
+    # have to figure out how to turn 'SW' into 'S', 'W' - otherwise South West Marine Drive will never work
+    try:
+        i = string_pieces.index('SW')
+    except ValueError:
+        pass
+    else:
+        string_pieces[i] = 'S'
+        string_pieces.append('W')
+
+    try:
+        i = string_pieces.index('NW')
+    except ValueError:
+        pass
+    else:
+        string_pieces[i] = 'N'
+        string_pieces.append('W')
+
+    try:
+        i = string_pieces.index('SE')
+    except ValueError:
+        pass
+    else:
+        string_pieces[i] = 'S'
+        string_pieces.append('E')
+
+    try:
+        i = string_pieces.index('NE')
+    except ValueError:
+        pass
+    else:
+        string_pieces[i] = 'N'
+        string_pieces.append('E')
+
+    string_pieces.sort()
+    sorted_string = " ".join(string_pieces)
+    return sorted_string
+
+
 def find_or_create_house(pieces):
     house = models.House.query.filter(models.House.stdStreet==pieces[2],
                                 models.House.civicNumber==pieces[1]).first()
@@ -19,7 +93,7 @@ def find_or_create_house(pieces):
         find_or_create_tree(pieces, house)
     else:
         print "house not found"
-        h = models.House(civicNumber=pieces[1], stdStreet=pieces[2], neighbourhoodName=pieces[3])
+        h = models.House(civicNumber=pieces[1], stdStreet=pieces[2], stdStreetSorted=parse_address(pieces[2]), neighbourhoodName=pieces[3])
         db.session.add(h)
         db.session.commit()
         find_or_create_tree(pieces, h)

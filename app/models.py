@@ -4,6 +4,7 @@ class House(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     civicNumber = db.Column(db.Integer, unique=True)
     stdStreet = db.Column(db.String(255), index=True)
+    stdStreetSorted = db.Column(db.String(255), index=True)
     neighbourhoodName = db.Column(db.String(255), index=True)
     trees = db.relationship('Tree', backref='location', lazy='dynamic')
 

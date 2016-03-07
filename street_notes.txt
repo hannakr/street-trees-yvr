@@ -96,3 +96,9 @@ rebuild: number + back direction + front direction + street name + type
 
 for each function, return the result and the remaining pieces
 if the result is null, return an empty string
+
+Another option:
+Include another column in the House table in the DB - sorted street address
+This column contains the street address but with the pieces sorted alphabetically.
+Take the data put into the search bar, remove the street number, and then sort the pieces alphabetically. Then replace the street types and directions to normalize and then do your search.
+You can display the other column of data

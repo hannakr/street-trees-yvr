@@ -18,7 +18,7 @@ def search():
     response = request.args.get('address')
     number, street = parse_address(response)
     print street
-    houses = House.query.order_by(House.civicNumber).filter(House.stdStreet==street,
+    houses = House.query.order_by(House.civicNumber).filter(House.stdStreetSorted==street,
                                 (House.civicNumber==number if number else '')).all()
     form.address.data = number + " " + street
     return render_template('search.html',
