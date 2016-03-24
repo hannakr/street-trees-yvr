@@ -20,7 +20,7 @@ def search():
     print street
     houses = House.query.order_by(House.civicNumber).filter(House.stdStreetSorted==street,
                                 (House.civicNumber==number if number else '')).all()
-    form.address.data = number + " " + street
+    form.address.data = response #number + " " + street
     return render_template('search.html',
                            title='Find Address',
                            form=form,
