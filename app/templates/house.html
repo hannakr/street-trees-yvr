@@ -1,22 +1,84 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container-fluid">
-  <h1>House ID: {{ id }}!</h1>
-  <div>
-    <p>{{ number }} {{ street }}</p>
+  <header>
+    <h1 class="h1 house-h1">{{ number }} {{ street }}</h1>
+    <p class="info house-info">House ID: {{ id }}</p>
+  </header>
+
+  <div class="display house-display">
     <div class="square">
-      <div class="house"><img src="/static/images/house-308936_640.png" width="200" height="200"></div>
-    {% for tree in trees %}
-      <div class="cell cell-{{ tree.cell }}">tree</div>
-    {% endfor %}
+      <div class="inner-square">
+        <div class="house house-icon"></div>
+        {% for tree in trees %}
+          <div class="cell cell-{{ tree.cell }}">
+            <a data-toggle="_modal"
+               class="openBtn tree-icon button"
+               data-genus="{{ tree.genusName|capitalize }}"
+               data-common="{{ tree.commonName|capitalize }}"
+               data-species="{{ tree.speciesName|lower }}"
+               data-cultivar="{{ tree.cultivarName|capitalize }}"
+               href="#treeDetail">
+            </a>
+          </div>
+        {% endfor %}
+        </div>
     </div>
-    <p>
+    <p class="description">
       {% for tree in trees %}
         <b>Cell {{ tree.cell }}: {{ tree.commonName }}</b>, <em>{{ tree.genusName }} {{ tree.speciesName }} {% if tree.cultivarName|length > 1 %}'{{ tree.cultivarName }}'{% endif %}</em><br />
       {% endfor %}
     </p>
-  </div>
-  {% if prev_house_id %}<a href="/house/{{ prev_house_id }}">Previous</a>{% endif %}
-  {% if next_house_id %}<a href="/house/{{ next_house_id }}">Next</a>{% endif %}
+    {% if prev_house_id %}
+      <a href="/house/{{ prev_house_id }}" class="icon-before icon-prev nav-button nav-button_prev">
+        <span class="hidden">Previous</span>
+      </a>
+    {% endif %}
+    {% if next_house_id %}
+      <a href="/house/{{ next_house_id }}" class="icon-before icon-next nav-button nav-button_next">
+        <span class="hidden">Next</span>
+      </a>
+    {% endif %}
+  </div><!-- display -->
+
+</div><!-- container -->
+
+<div class="modal" id="treeDetail">
+	<div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title" data-token="commonName"></h4>
+        </div>
+        <div class="modal-body">
+          <strong data-token="commonName"></strong>:
+          <em data-token="genus"></em>
+          <em data-token="species"></em>
+          <span data-token="cultivar"></span>
+        </div>
+        <div class="modal-footer">
+          <a href="#" data-dismiss="modal" class="btn btn-primary">Close</a>
+        </div>
+      </div>
+    </div>
 </div>
+<script>
+  $('.openBtn').on('click', function(event){
+    event.preventDefault();
+    var $target = $(event.target);
+    var genus = $target.data('genus');
+    var common = $target.data('common');
+    var species = $target.data('species');
+    var cultivar = $target.data('cultivar');
+    if (cultivar !== ' ') {
+      cultivar = '\'' + cultivar + '\'';
+    }
+    console.log(cultivar);
+    $('[data-token="commonName"]').html(common);
+    $('[data-token="genus"]').html(genus);
+    $('[data-token="species"]').html(species);
+    $('[data-token="cultivar"]').html(cultivar);
+    $('#treeDetail').modal({show:true})
+  });
+</script>
 {% endblock %}
