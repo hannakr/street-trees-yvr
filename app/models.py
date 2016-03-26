@@ -2,7 +2,7 @@ from app import db
 
 class House(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    civicNumber = db.Column(db.Integer, unique=True)
+    civicNumber = db.Column(db.Integer, index=True)
     stdStreet = db.Column(db.String(255), index=True)
     stdStreetSorted = db.Column(db.String(255), index=True)
     neighbourhoodName = db.Column(db.String(255), index=True)
