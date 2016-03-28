@@ -2,6 +2,11 @@ from app import db, models
 #from models import *
 import re
 import os
+import datetime
+
+all_lines = 0
+new_houses = 0
+new_trees = 0
 
 def import_data():
     print "running function"
@@ -9,12 +14,20 @@ def import_data():
     for fn in os.listdir('/Users/hannaruotsalainen/Documents/flask/trees/csv_street_trees'):
         if os.path.isfile(os.path.join(tree_path,fn)):
             print (fn)
+            print datetime.datetime.now()
             with open(os.path.join(tree_path,fn), "r") as csv_file:
                 csv_file.readline()     #skip the header line
+                all_lines = 0
+                new_houses = 0
+                new_trees = 0
                 for line in csv_file:
+                    all_lines += 1
                     pieces = line.strip().split(',')
-                    print pieces
-                    find_or_create_house(pieces)
+                    #print pieces
+                    find_or_create_house(pieces, new_houses, new_trees)
+                print "lines: " + str(all_lines)
+                print "houses added: " + str(new_houses)
+                print "trees added: " + str(new_trees)
 
 def parse_address(street_string):
     string_pieces = street_string.upper().split()
@@ -89,28 +102,30 @@ def parse_address(street_string):
     return sorted_string
 
 
-def find_or_create_house(pieces):
+def find_or_create_house(pieces, new_houses, new_trees):
     house = models.House.query.filter(models.House.stdStreet==pieces[2],
                                 models.House.civicNumber==pieces[1]).first()
-    print house
+    #print house
     if house:
-        print "house found"
-        find_or_create_tree(pieces, house)
+        #print "house found"
+        find_or_create_tree(pieces, house, new_trees)
     else:
-        print "house not found"
+        #print "house not found"
+        new_houses += 1
         h = models.House(civicNumber=pieces[1], stdStreet=pieces[2], stdStreetSorted=parse_address(pieces[2]), neighbourhoodName=pieces[3])
         db.session.add(h)
         db.session.commit()
-        find_or_create_tree(pieces, h)
+        find_or_create_tree(pieces, h, new_trees)
 
-def find_or_create_tree(pieces, house):
+def find_or_create_tree(pieces, house, new_trees):
     tree = models.Tree.query.filter(models.Tree.treeID==pieces[0]).first()
-    print tree
+    #print tree
     if tree:
-        print "tree found"
+        #print "tree found"
         return
     else:
-        print "tree not found"
+        new_trees += 1
+        #print "tree not found"
         corner = False
         if (house.stdStreet != pieces[5]):
             corner = True
