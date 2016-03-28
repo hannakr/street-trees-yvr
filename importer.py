@@ -1,15 +1,20 @@
 from app import db, models
 #from models import *
 import re
+import os
 
 def import_data():
     print "running function"
-    with open("csv_street_trees/StreetTrees_Marpole.csv", "r") as csv_file:
-        csv_file.readline()     #skip the header line
-        for line in csv_file:
-            pieces = line.strip().split(',')
-            print pieces
-            find_or_create_house(pieces)
+    tree_path = '/Users/hannaruotsalainen/Documents/flask/trees/csv_street_trees'
+    for fn in os.listdir('/Users/hannaruotsalainen/Documents/flask/trees/csv_street_trees'):
+        if os.path.isfile(os.path.join(tree_path,fn)):
+            print (fn)
+            with open(os.path.join(tree_path,fn), "r") as csv_file:
+                csv_file.readline()     #skip the header line
+                for line in csv_file:
+                    pieces = line.strip().split(',')
+                    print pieces
+                    find_or_create_house(pieces)
 
 def parse_address(street_string):
     string_pieces = street_string.upper().split()
