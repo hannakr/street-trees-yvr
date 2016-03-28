@@ -4,12 +4,12 @@ import re
 
 def import_data():
     print "running function"
-    f = open('StreetTrees_Strathcona.csv', 'r')
-    f.readline()
-    for line in f:
-        pieces = line.strip().split(',')
-        print pieces
-        find_or_create_house(pieces)
+    with open("csv_street_trees/StreetTrees_Marpole.csv", "r") as csv_file:
+        csv_file.readline()     #skip the header line
+        for line in csv_file:
+            pieces = line.strip().split(',')
+            print pieces
+            find_or_create_house(pieces)
 
 def parse_address(street_string):
     string_pieces = street_string.upper().split()
