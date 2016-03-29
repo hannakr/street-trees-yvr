@@ -10,8 +10,8 @@ new_trees = 0
 
 def import_data():
     print "running function"
-    tree_path = '/Users/hannaruotsalainen/Documents/flask/trees/csv_street_trees'
-    for fn in os.listdir('/Users/hannaruotsalainen/Documents/flask/trees/csv_street_trees'):
+    tree_path = os.path.join(os.getcwd(),'csv_street_trees')
+    for fn in os.listdir(tree_path):
         if os.path.isfile(os.path.join(tree_path,fn)):
             print (fn)
             print datetime.datetime.now()
