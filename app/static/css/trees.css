@@ -199,4 +199,5 @@
 
 .display {
   position: relative;
+  max-width: 480px;
 }
