@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container-fluid">
+  {% include 'search_bar.html' %}
   <header>
     <h1 class="h1 house-h1">{{ number }} {{ street }}</h1>
     <p class="info house-info">House ID: {{ id }}</p>
