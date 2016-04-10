@@ -29,6 +29,7 @@ def search():
 
 @app.route('/house/<id>')
 def house(id):
+    form = SearchForm()
     house = House.query.filter_by(id=id).first_or_404()
     houses = House.query.order_by(House.civicNumber).filter(House.stdStreet==house.stdStreet).all()
     main_house_index = houses.index(house)
@@ -45,4 +46,5 @@ def house(id):
                                             next_house_id=next_house_id,
                                            number=house.civicNumber,
                                            street=house.stdStreet,
-                                           trees=house.trees.order_by(Tree.cell).all())
+                                           trees=house.trees.order_by(Tree.cell).all(),
+                                           form=form)
